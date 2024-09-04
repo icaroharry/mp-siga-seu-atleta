@@ -11,15 +11,35 @@ export type AthleteWithSport = Athlete & {
 interface FindAthletesParams {
   offset?: number;
   limit?: number;
+  searchText?: string;
 }
 
 export async function findAthletes({
   offset = 0,
   limit = ATHLETES_PER_PAGE,
+  searchText = "",
 }: FindAthletesParams) {
   return db.athlete.findMany({
     skip: offset,
     take: limit,
     include: { sport: { select: { name: true } } },
+    where: {
+      AND: [
+        {
+          OR: [
+            {
+              instagramName: {
+                contains: searchText,
+              },
+            },
+            {
+              instagramBio: {
+                contains: searchText,
+              },
+            },
+          ],
+        },
+      ],
+    },
   });
 }

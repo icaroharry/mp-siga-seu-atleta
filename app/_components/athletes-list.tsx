@@ -8,9 +8,12 @@ import { useInView } from "react-intersection-observer";
 
 interface AthletesListProps {
   initialData: AthleteWithSport[];
+  filters: {
+    searchText?: string;
+  };
 }
 
-function AthletesList({ initialData }: AthletesListProps) {
+function AthletesList({ initialData, filters }: AthletesListProps) {
   const [offset, setOffset] = useState(ATHLETES_PER_PAGE);
   const [athletes, setAthletes] = useState<AthleteWithSport[]>(initialData);
   const [hasMoreData, setHasMoreData] = useState(
@@ -23,6 +26,7 @@ function AthletesList({ initialData }: AthletesListProps) {
     if (hasMoreData) {
       const apiAthletes = await findAthletes({
         offset,
+        ...filters,
       });
 
       if (apiAthletes.length === 0) {
