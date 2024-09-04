@@ -2,17 +2,19 @@
 
 import DesktopFilters from "@/app/_components/filters/_components/desktop";
 import { SearchInput } from "@/components/ui/input";
+import { Sport } from "@prisma/client";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import React from "react";
 import { useDebouncedCallback } from "use-debounce";
 
-function Filters() {
+function Filters({ sports }: { sports: Sport[] }) {
   const searchParams = useSearchParams();
   const { replace } = useRouter();
   const pathname = usePathname();
 
   const q = searchParams.get("q") || "";
   const category = searchParams.get("category") || "all";
+  const sport = searchParams.get("sport") || "";
 
   const handleSearch = useDebouncedCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -39,6 +41,18 @@ function Filters() {
     replace(`${pathname}?${params.toString()}`);
   };
 
+  const handleSportChange = (selectedSport: string) => {
+    const params = new URLSearchParams(searchParams);
+
+    if (selectedSport.length === 0) {
+      params.delete("sport");
+    } else {
+      params.set("sport", selectedSport);
+    }
+
+    replace(`${pathname}?${params.toString()}`);
+  };
+
   return (
     <div className="relative flex flex-row md:flex-col lg:flex-row gap-8">
       <div>
@@ -54,6 +68,9 @@ function Filters() {
       <DesktopFilters
         category={category}
         onCategoryChange={handleCategoryChange}
+        sports={sports}
+        sport={sport}
+        onSportChange={handleSportChange}
       />
     </div>
   );

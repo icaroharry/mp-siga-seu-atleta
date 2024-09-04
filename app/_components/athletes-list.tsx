@@ -11,6 +11,7 @@ interface AthletesListProps {
   filters: {
     searchText?: string;
     category?: "all" | "paralympic" | "olympic";
+    sport?: string;
   };
 }
 
