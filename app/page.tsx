@@ -4,7 +4,7 @@ import { findSports } from "@/lib/sports";
 import { Suspense } from "react";
 
 export default async function Home() {
-  const athletes = await findAthletes();
+  const athletes = await findAthletes({});
 
   const sports = await findSports();
 
