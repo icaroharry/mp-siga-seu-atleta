@@ -12,6 +12,7 @@
     "@libsql/client": "^0.8.1",
     "@prisma/adapter-libsql": "^5.19.1",
     "@prisma/client": "^5.19.1",
+    "@radix-ui/react-dialog": "^1.1.1",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "lucide-react": "^0.438.0",
