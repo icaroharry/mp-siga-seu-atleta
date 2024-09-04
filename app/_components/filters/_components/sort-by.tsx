@@ -12,7 +12,7 @@ interface SortByParams {
   sort: string;
   onSortByChange: (selectedSort: string) => void;
   dir: string;
-  onDirectionChange: () => void;
+  onDirectionChange: (params: any) => void;
 }
 
 function SortBy({

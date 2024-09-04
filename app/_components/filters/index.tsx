@@ -1,16 +1,31 @@
 "use client";
 
 import DesktopFilters from "@/app/_components/filters/_components/desktop";
+import MobileFilters from "@/app/_components/filters/_components/mobile";
 import { SearchInput } from "@/components/ui/input";
 import { Sport } from "@prisma/client";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import React from "react";
 import { useDebouncedCallback } from "use-debounce";
+import { useMediaQuery } from "@react-hook/media-query";
+
+export interface FiltersProps {
+  category: string;
+  onCategoryChange: (selectedCategory: string) => void;
+  sports: Sport[];
+  sport: string;
+  onSportChange: (sport: string) => void;
+  sort: string;
+  onSortByChange: (selectedSort: string) => void;
+  dir: string;
+  onDirectionChange: () => void;
+}
 
 function Filters({ sports }: { sports: Sport[] }) {
   const searchParams = useSearchParams();
   const { replace } = useRouter();
   const pathname = usePathname();
+  const isMobile = useMediaQuery("only screen and (max-width: 768px)");
 
   const q = searchParams.get("q") || "";
   const category = searchParams.get("category") || "all";
@@ -80,17 +95,31 @@ function Filters({ sports }: { sports: Sport[] }) {
           onChange={handleSearch}
         />
       </div>
-      <DesktopFilters
-        category={category}
-        onCategoryChange={handleCategoryChange}
-        sports={sports}
-        sport={sport}
-        onSportChange={handleSportChange}
-        sort={sort}
-        onSortByChange={handleSortByChange}
-        dir={dir}
-        onDirectionChange={handleDirectionChange}
-      />
+      {isMobile ? (
+        <MobileFilters
+          category={category}
+          onCategoryChange={handleCategoryChange}
+          sports={sports}
+          sport={sport}
+          onSportChange={handleSportChange}
+          sort={sort}
+          onSortByChange={handleSortByChange}
+          dir={dir}
+          onDirectionChange={handleDirectionChange}
+        />
+      ) : (
+        <DesktopFilters
+          category={category}
+          onCategoryChange={handleCategoryChange}
+          sports={sports}
+          sport={sport}
+          onSportChange={handleSportChange}
+          sort={sort}
+          onSortByChange={handleSortByChange}
+          dir={dir}
+          onDirectionChange={handleDirectionChange}
+        />
+      )}
     </div>
   );
 }
