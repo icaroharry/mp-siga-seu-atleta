@@ -1,4 +1,5 @@
 import CategoriesFilter from "@/app/_components/filters/_components/categories";
+import SortBy from "@/app/_components/filters/_components/sort-by";
 import SportsFilter from "@/app/_components/filters/_components/sports";
 import { Sport } from "@prisma/client";
 
@@ -8,6 +9,10 @@ interface DesktopFiltersProps {
   sports: Sport[];
   sport: string;
   onSportChange: (sport: string) => void;
+  sort: string;
+  onSortByChange: (selectedSort: string) => void;
+  dir: string;
+  onDirectionChange: () => void;
 }
 
 function DesktopFilters({
@@ -16,6 +21,10 @@ function DesktopFilters({
   sports,
   sport,
   onSportChange,
+  sort,
+  onSortByChange,
+  dir,
+  onDirectionChange,
 }: DesktopFiltersProps) {
   return (
     <div className="flex w-full justify-between">
@@ -31,6 +40,12 @@ function DesktopFilters({
           sports={sports}
         />
       </div>
+      <SortBy
+        sort={sort}
+        onSortByChange={onSortByChange}
+        dir={dir}
+        onDirectionChange={onDirectionChange}
+      />
     </div>
   );
 }

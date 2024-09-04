@@ -11,16 +11,23 @@ export default async function Home({
     q?: string;
     category?: "all" | "olympic" | "paralympic";
     sport?: string;
+    sort: "followers" | "name" | "sport";
+    dir: "desc" | "asc";
   };
 }) {
   const searchText = searchParams?.q || "";
   const category = searchParams?.category || "all";
   const sport = searchParams?.sport;
 
+  const sort = searchParams?.sort || "followers";
+  const dir = searchParams?.dir || "desc";
+
   const athletes = await findAthletes({
     searchText,
     category,
     sport,
+    sort,
+    dir,
   });
 
   const sports = await findSports();
@@ -29,11 +36,11 @@ export default async function Home({
     <main className="p-4 flex flex-col gap-12">
       <Filters sports={sports} />
       <Suspense
-        key={searchText + category + sport}
+        key={searchText + category + sport + sort + dir}
         fallback={<div>Carregando...</div>}
       >
         <AthletesList
-          filters={{ searchText, category, sport }}
+          filters={{ searchText, category, sport, sort, dir }}
           initialData={athletes}
         />
       </Suspense>

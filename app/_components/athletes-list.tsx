@@ -12,6 +12,8 @@ interface AthletesListProps {
     searchText?: string;
     category?: "all" | "paralympic" | "olympic";
     sport?: string;
+    sort: "followers" | "name" | "sport";
+    dir: "desc" | "asc";
   };
 }
 
