@@ -9,12 +9,15 @@ export default async function Home({
 }: {
   searchParams: {
     q?: string;
+    category?: "all" | "olympic" | "paralympic";
   };
 }) {
   const searchText = searchParams?.q || "";
+  const category = searchParams?.category || "all";
 
   const athletes = await findAthletes({
     searchText,
+    category,
   });
 
   const sports = await findSports();
@@ -22,8 +25,11 @@ export default async function Home({
   return (
     <main className="p-4 flex flex-col gap-12">
       <Filters />
-      <Suspense key={searchText} fallback={<div>Carregando...</div>}>
-        <AthletesList filters={{ searchText }} initialData={athletes} />
+      <Suspense key={searchText + category} fallback={<div>Carregando...</div>}>
+        <AthletesList
+          filters={{ searchText, category }}
+          initialData={athletes}
+        />
       </Suspense>
     </main>
   );

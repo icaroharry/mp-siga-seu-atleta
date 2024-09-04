@@ -10,6 +10,7 @@ interface AthletesListProps {
   initialData: AthleteWithSport[];
   filters: {
     searchText?: string;
+    category?: "all" | "paralympic" | "olympic";
   };
 }
 
